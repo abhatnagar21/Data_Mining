@@ -1,0 +1,108 @@
+K Means
+% Load the Fisher Iris dataset 
+load fisheriris.mat 
+% Select specific features (sepal length, sepal width, petal length, petal width) 
+data = meas(:, 2:end); 
+% Set the number of clusters (k) to 3 
+k = 3; 
+% Create options structure for k-means algorithm 
+opts = statset('Display', 'final'); 
+% Perform k-means clustering using Euclidean distance, 5 replicates, and final display 
+[idx, c] = kmeans(data, k, "Distance", "sqeuclidean", "Replicates", 5, "Options", opts); 
+% Create a scatter plot using the first two features (sepal length and sepal width) 
+figure; 
+scatter(data(:, 1), data(:, 2), 10, idx, 'filled'); 
+% Add cluster centers to the plot as large, bold 'x' markers 
+hold on; 
+plot(c(:, 1), c(:, 2), 'kx', 'MarkerSize', 15, 'LineWidth', 3); 
+
+Decision tree
+% Load the Fisher Iris dataset 
+load fisheriris.mat 
+% Create a scatter plot to visualize the data 
+figure; 
+gscatter(meas(:, 1), meas(:, 2), species, 'rgb', 'osd'); 
+% Label the axes 
+xlabel('Sepal Length (cm)'); 
+ylabel('Sepal Width (cm)'); 
+% Create a decision tree model using the first two features (Sepal Length and 
+Sepal Width) 
+f = fitctree(meas(:, 1:2), species, 'PredictorNames', {'sepal_length', 
+'sepal_width'}); 
+% Visualize the decision tree 
+view(f, 'mode', 'graph');
+
+Z-score normalisation
+rng(1) % 1 indicates positive numbers 
+data=randn(100,2)*10+50; % to generate random numbers, avg 50 
+subplot(1,2,1); %1 row 2 columns first figure 
+scatter(data(:,1),data(:,2)); % : -> rows, 1,2 -> column no. 
+title('original data'); 
+standardizeData=zscore(data); %to standardise the original dataset 
+subplot(1,2,2); 
+scatter(standardizeData(:,1),standardizeData(:,2)); 
+title('Standardized Data');
+
+basic python program
+# Sample data 
+numbers = [15, 10, 3, 8, 95, 2] 
+# Calculate the mean of the numbers 
+mean = sum(numbers) / len(numbers) 
+# Cluster the numbers into two groups based on mean 
+cluster_1 = [num for num in numbers if num > mean] 
+cluster_2 = [num for num in numbers if num <= mean] 
+# Print the clusters 
+print("Cluster 1 (Numbers greater than the mean):", cluster_1) 
+print("Cluster 2 (Numbers less than or equal to the mean):", cluster_2)
+
+k-means
+# Importing necessary libraries 
+import pandas as pd 
+from sklearn.datasets import load_iris 
+from sklearn.cluster import KMeans 
+import matplotlib.pyplot as plt 
+# Loading the Iris dataset 
+iris = load_iris() 
+iris_df = pd.DataFrame(data=iris.data, columns=iris.feature_names) 
+# Exploring the dataset 
+print(iris_df.head()) 
+# Using KMeans clustering algorithm 
+kmeans = KMeans(n_clusters=3) 
+kmeans.fit(iris_df) 
+# Getting cluster centers and labels 
+centroids = kmeans.cluster_centers_ 
+labels = kmeans.labels_ 
+# Adding cluster labels to the dataset 
+iris_df['Cluster'] = labels 
+# Visualizing the clusters 
+plt.scatter(iris_df['sepal length (cm)'], iris_df['sepal width (cm)'], c=iris_df['Cluster'], 
+cmap='viridis') 
+plt.scatter(centroids[:, 0], centroids[:, 1], c='red', marker='x', s=200) 
+plt.xlabel('Sepal Length (cm)') 
+plt.ylabel('Sepal Width (cm)') 
+plt.title('KMeans Clustering of Iris Dataset') 
+plt.show()
+
+naive bayes
+# Sample dataset: Features (age, income) and target variable (buy)  
+# You can replace this with your actual dataset  
+from sklearn.model_selection import train_test_split  
+from sklearn.naive_bayes import GaussianNB  
+from sklearn import metrics  
+X = [[25, 40000], [35, 60000], [45, 80000], [20, 20000], [30, 50000], [40, 70000]]  
+y = ['No', 'No', 'Yes', 'No', 'Yes', 'Yes']  
+# Splitting the dataset into training and testing sets  
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)  
+# Initialize Gaussian Naive Bayes classifier  
+model = GaussianNB()  
+# Train the model using the training sets  
+model.fit(X_train, y_train)  
+# Predict the response for test dataset  
+predicted = model.predict(X_test)  
+# Model Accuracy, how often is the classifier correct?  
+accuracy = metrics.accuracy_score(y_test, predicted)  
+print("Accuracy:", accuracy)  
+# Example prediction  
+# Let's say we want to predict whether a 32-year-old with an income of $60,000 will buy electronics  
+prediction = model.predict([[32, 60000]])  
+print("Prediction:", prediction)
